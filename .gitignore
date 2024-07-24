@@ -3,8 +3,9 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-### IntelliJ IDEA ###
-.idea
+
+.idea/
+
 ### Eclipse ###
 .apt_generated
 .classpath
