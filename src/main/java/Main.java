@@ -25,6 +25,7 @@ public class Main extends Application {
                         Socket clientSocket = serverSocket.accept();
                         System.out.println("[SERVER]: Main "+clientSocket.getInetAddress().toString()+" connected");
                         Platform.runLater(() -> openNewWindow(clientSocket));
+
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -42,7 +43,6 @@ public class Main extends Application {
         stage.setScene(scene);
         stage.setTitle("Camera Feed - " + clientSocket.getInetAddress().toString());
         stage.show();
-
         new Thread(() -> {
             try {
                 InputStream inputStream = clientSocket.getInputStream();
@@ -59,9 +59,9 @@ public class Main extends Application {
                     // Convert the byte buffer to an image
                     for (int y = 0; y < 480; y++) {
                         for (int x = 0; x < 640; x++) {
-                            int r = buffer[(y * 640 + x)] & 0xFF;
-                            int g = buffer[(y * 640 + x) + 1] & 0xFF;
-                            int b = buffer[(y * 640 + x) + 2] & 0xFF;
+                            int r = buffer[(y * 640 + x) * 3] & 0xFF;
+                            int g = buffer[(y * 640 + x) * 3 + 1] & 0xFF;
+                            int b = buffer[(y * 640 + x) * 3 + 2] & 0xFF;
                             int argb = (0xFF << 24) | (r << 16) | (g << 8) | b;
                             pixelWriter.setArgb(x, y, argb);
                         }
